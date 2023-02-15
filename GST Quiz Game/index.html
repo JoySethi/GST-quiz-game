@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GST Quiz Game</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>GST Quiz Game</h1>
+    <h2>Made by Joy Sethi (21BCG10038)</h2>
+    <div id="quiz-container">
+        <div id="question"></div>
+        <ul id="choices"></ul>
+    </div>
+    <div id="score-container">
+        <p>Score: <span id="score">0</span></p>
+        <p>Question: <span id="question-count">0</span> of 5</p>
+    </div>
+    <button id="submit-button">Submit</button>
+    <script>
+        const quizContainer = document.getElementById("quiz-container");
+        const questionEl = document.getElementById("question");
+        const choicesEl = document.getElementById("choices");
+        const scoreEl = document.getElementById("score");
+        const questionCountEl = document.getElementById("question-count");
+        const submitButton = document.getElementById("submit-button");
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        const questions = [
+            {
+                question: "What is the full form of GST?",
+                choices: ["Goods and Sales Tax", "Goods and Services Tax", "Goods and State Tax", "Goods and Supply Tax"],
+                answer: 1
+            },
+            {
+                question: "What is the current GST rate in India?",
+                choices: ["5%", "12%", "18%", "28%"],
+                answer: 2
+            },
+            {
+                question: "Which government body is responsible for administering GST in India?",
+                choices: ["Ministry of Finance", "Central Board of Direct Taxes", "Central Board of Excise and Customs", "National Company Law Tribunal"],
+                answer: 2
+            },
+            {
+                question: "What is the GST Council?",
+                choices: ["A group of experts who advise the government on GST-related issues", "The body that sets the GST rates in India", "The organization that collects GST revenue", "The regulatory body that enforces GST compliance"],
+                answer: 0
+            },
+            {
+                question: "What is the threshold for GST registration in India?",
+                choices: ["Rs. 10 lakhs", "Rs. 20 lakhs", "Rs. 30 lakhs", "Rs. 40 lakhs"],
+                answer: 1
+            }
+        ];
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            questionEl.innerText = question.question;
+            choicesEl.innerHTML = "";
+            for (let i = 0; i < question.choices.length; i++) {
+                const choice = question.choices[i];
+                const li = document.createElement("li");
+                li.innerText = choice;
+                li.addEventListener("click", selectAnswer);
+                choicesEl.appendChild(li);
+            }
+        }
+
+        function selectAnswer(event) {
+            const selectedLi = event.target;
+            const selectedAnswer = selectedLi.innerText;
+            const question = questions[currentQuestion];
+            if (selectedAnswer === question.choices[question.answer]) {
+                score++;
+                scoreEl.innerText = score;
+            }
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+                questionCountEl.innerText = currentQuestion + 1;
+            } else {
+                quizContainer.innerHTML = "<h2>Quiz completed!</h2><p>Your final score is " + score + " out of " + questions.length + ".</p>";
+            }
+        }
+
+        showQuestion();
+    </script>
+</body>
+</html>
